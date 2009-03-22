@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+  <item url=".">Main</item>
+  <item url="page.php">Test page</item>
+</menu>
