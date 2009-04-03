@@ -36,7 +36,7 @@
  * xsl:stylesheet tag enumerating all namespaces defined within
  * this tag via xmlns:XXX.
  *
- * @version 0.90
+ * @version 0.91
  */
 class Dklab_ShortXSLT
 {
@@ -311,8 +311,9 @@ class Dklab_ShortXSLT
         // Process {} blocks.
         // ATTENTION! We only process blocks with NON-SPACE after the first '{'.
         // This is needed for better compatibility with CSS and JS inside XSLT.
+        // Note that unquoted ">" is ALLOWED by standards in attribute content!
         $content = preg_replace_callback(
-            '/ \{ (?=\S)  ( (?' . '> [^<>{}"\']+ | " [^"<>]* " | \' [^\'<>]* \' )* )  \}/sx',
+            '/ \{ (?=\S)  ( (?' . '> [^<{}"\']+ | " [^"<]* " | \' [^\'<]* \' )* )  \}/sx',
             array($this, '_processChunkCallback'),
             $content
         );
@@ -355,7 +356,7 @@ class Dklab_ShortXSLT
         // Remove quoted values, tag markers and "=".
         // Only attribute names remain.
         $content = preg_replace(
-            '{(?' . '>  <\S+  |  [/>=]+  |  " [^"<>]* "  |  \' [^\'<>]* \'  )+}sx', 
+            '{(?' . '>  <\S+  |  [/>=]+  |  " [^"<]* "  |  \' [^\'<]* \'  )+}sx', 
             ' ',
             $content
         );
@@ -367,7 +368,7 @@ class Dklab_ShortXSLT
     }
     
     /**
-     * Add an attribute to tal $tag.
+     * Add an attribute to a tag $tag.
      * If this attribute already exists, append its value space-delimited.
      * 
      * @param string $tag
@@ -479,7 +480,7 @@ class Dklab_ShortXSLT
     private function _processXpathContent($content)
     {
         $parts = preg_split(
-            '/((?' . '> " [^"<>]* " | \' [^\'<>]* \' ))/sx',
+            '/((?' . '> " [^"<]* " | \' [^\'<]* \' ))/sx',
             $content,
             0, 
             PREG_SPLIT_DELIM_CAPTURE
@@ -524,7 +525,7 @@ class Dklab_ShortXSLT
         $tplName = $m[1];
         // Extract parameters.
         preg_match_all(
-            '/ ([^<>{}"\'\s]+) \s* = \s* (?' . '> " ([^"<>]*) " | \' ([^\'<>]*) \' )/sx',
+            '/ ([^<>{}"\'\s]+) \s* = \s* (?' . '> " ([^"<]*) " | \' ([^\'<]*) \' )/sx',
             $m[2],
             $matches,
             PREG_SET_ORDER
