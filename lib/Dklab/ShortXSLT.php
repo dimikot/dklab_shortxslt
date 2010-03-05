@@ -36,7 +36,7 @@
  * xsl:stylesheet tag enumerating all namespaces defined within
  * this tag via xmlns:XXX.
  *
- * @version 0.91
+ * @version 0.92
  */
 class Dklab_ShortXSLT
 {
@@ -130,7 +130,7 @@ class Dklab_ShortXSLT
                 | <\? .*? >
                 | (?: (?i) <script\b .*? <\/script> )
                 | (?: (?i) <style\b .*? <\/style> )
-                | <[^>]+> 
+                | < (?: [^>"\']+ | "[^"<]*" | \'[^\'<]*\' )* > 
             )/sx', 
             $content, 
             0, 

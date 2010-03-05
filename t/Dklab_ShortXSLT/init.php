@@ -5,7 +5,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('track_errors', 1);
 
-include_once "../../Dklab_DOMDocument/lib/config.php";
+if (@is_file("../../Dklab_DOMDocument/lib/config.php")) {
+	include_once "../../Dklab_DOMDocument/lib/config.php";
+}
 include_once "../../lib/config.php";
 include_once "Dklab/ShortXSLT.php";
 
